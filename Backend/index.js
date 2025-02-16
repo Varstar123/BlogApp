@@ -41,6 +41,16 @@ app.delete("/delete/:id", async(req,res) => {
   }
 })
 
+app.put("/update/:id", async(req,res) => {
+  try{
+    const updated = await BlogModel.findByIdAndUpdate(req.params.id,req.body,{new:true});
+    res.send({message: "Data updated!!"})
+  }
+  catch(error){
+    console.log(error);
+  }
+})
+
 
 
 app.listen(PORT, () => {
