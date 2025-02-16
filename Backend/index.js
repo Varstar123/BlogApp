@@ -31,6 +31,18 @@ app.get("/get", async (req, res) => {
 });
 
 
+app.delete("/delete/:id", async(req,res) => {
+  try{
+    await BlogModel.findByIdAndDelete(req.params.id);
+    res.send({message:"Data deleted!!"})
+  }
+  catch(error){
+    console.log(error);
+  }
+})
+
+
+
 app.listen(PORT, () => {
   console.log(`${PORT} is up and running`);
 });
