@@ -12,6 +12,14 @@ const Home = () => {
             setdata(res.data);
         })
     })
+
+    const delData = (id) => {
+        axios.delete("http://localhost:3001/delete/" + id)
+        .then((res) => {
+            alert(res.data.message)
+            window.location.reload()
+        })
+    }
   return (
     <div>
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
@@ -31,8 +39,8 @@ const Home = () => {
                             <Typography gutterBottom variant="h5">
                               {val.content} <br />
                             </Typography>
-                            <Button color='secondary' variant='contained'>Update</Button>&nbsp;&nbsp;&nbsp;
-                            <Button color='secondary' variant='contained'>Delete</Button>
+                            <Button color='secondary' variant='contained' onClick={() => delData(val._id)}>Delete</Button>&nbsp;&nbsp;&nbsp;
+                            <Button color='secondary' variant='contained'>Update</Button>
                         </CardContent>
                     </Card>
                 </Grid>
