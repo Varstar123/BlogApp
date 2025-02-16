@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Add = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   var [inputs, setInputs] = useState({
     title: "",
     content: "",
@@ -17,6 +19,7 @@ const Add = () => {
   };
   const addData = () => {
     console.log("clicked");
+    if (!location.state){
     axios
       .post("http://localhost:3001/add",inputs)
       .then((res) => {
@@ -26,7 +29,26 @@ const Add = () => {
       .catch((err) => {
         console.log(err);
       });
+    }
+
+    else{
+      axios.put(`http://localhost:3001/update/${location.state.val._id}`,inputs)
+      .then((res) => {
+        alert(res.data.message);
+        navigate("/")
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
   };
+
+  useEffect (() => {
+    if (location.state !== null){
+      setInputs(location.state.val)
+    }
+  },[location.state]);
+
   return (
     <div>
       <div>

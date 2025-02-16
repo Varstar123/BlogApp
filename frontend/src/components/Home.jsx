@@ -3,14 +3,19 @@
 import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useLocation, useNavigate } from 'react-router-dom'
+
+
 
 const Home = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [data,setdata] = useState([])
     useEffect(() => {
         axios.get("http://localhost:3001/get")
         .then((res) => {
             setdata(res.data);
-        })
+        },[])
     })
 
     const delData = (id) => {
@@ -19,6 +24,10 @@ const Home = () => {
             alert(res.data.message)
             window.location.reload()
         })
+    }
+
+    const updateData = (val) => {
+        navigate("/add", {state: {val}})
     }
   return (
     <div>
@@ -40,7 +49,7 @@ const Home = () => {
                               {val.content} <br />
                             </Typography>
                             <Button color='secondary' variant='contained' onClick={() => delData(val._id)}>Delete</Button>&nbsp;&nbsp;&nbsp;
-                            <Button color='secondary' variant='contained'>Update</Button>
+                            <Button color='secondary' variant='contained' onClick={() => updateData(val)}>Update</Button>
                         </CardContent>
                     </Card>
                 </Grid>
